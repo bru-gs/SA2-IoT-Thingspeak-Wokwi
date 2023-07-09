@@ -1,0 +1,34 @@
+//O código deverá ser digitado na plataforma WOKWI
+//E pode ser melhor avistado através do link: https://wokwi.com/projects/367360468909685761
+
+#include "WiFi.h"
+#include "HTTPClient.h"
+
+const char* ssid = "Wokwi-GUEST";
+const char* password = "";
+
+void setup() {
+  Serial.begin(115200);
+  WiFi.begin(ssid,password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.println("Conectando ao wifi...");
+  }
+  Serial.println("canectado ao wifi...");
+}
+
+void loop() {
+  HTTPClient http;
+  http.begin("https://api.thingspeak.com/update?api_key=60LFKCCLNJ346SPI&field1=100&field2=100");
+
+  int httpCode = http.GET();
+
+  if(httpCode > 0) {
+    Serial.println("Enviado");
+  } else {
+    Serial.println("Falha ao Enviar");
+  }
+  delay(10);
+  
+}
